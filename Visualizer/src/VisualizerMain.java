@@ -11,7 +11,7 @@ public class VisualizerMain {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Enter file path:");
-		String path = "C:\\Users\\Spencer LaChance\\Desktop\\wavs\\Fantastic Man.wav";
+		String path = scan.nextLine();
 		scan.close();
 		new VisualizerController(path);
 	}
