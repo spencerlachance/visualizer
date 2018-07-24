@@ -143,6 +143,13 @@ public class AudioSampleReader {
     }
     
     /**
+     * Ends the playback of the clip
+     */
+    public void closeClip() {
+    	clip.close();
+    }
+    
+    /**
      * @returns the position in the audio in milliseconds
      */
     public int getClipPosition() {

@@ -15,7 +15,6 @@ public class VisualizerController implements ActionListener {
 
 	private AudioSampleReader asr;
 	private VisualizerModel vm;
-	private VisualizerView vv;
 	private boolean state; // true = playing, false = paused
 
 	/**
@@ -23,19 +22,26 @@ public class VisualizerController implements ActionListener {
 	 * 
 	 * @param filePath		the path to the file used in the visualizer
 	 */
-	public VisualizerController(String filePath) {
+	public VisualizerController(File f) {
 		try {
-			asr = new AudioSampleReader(new File(filePath));
+			asr = new AudioSampleReader(f);
 			vm = new VisualizerModel(asr);
 			state = false;
 			asr.createClip();
-			vv = new VisualizerView(vm);
-			vv.setButtonListener(this);
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			start();
+		} catch (UnsupportedAudioFileException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
+	}
+
+	/**
+	 * Starts the animation
+	 */
+	public void start() {
+		asr.startClip();
+		state = true;
 	}
 
 	/**
@@ -43,14 +49,25 @@ public class VisualizerController implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (state) {
-			asr.stopClip();
-			state = false;
+		if (e.getActionCommand().equals("PLAY/PAUSE")) {
+			if (state) {
+				asr.stopClip();
+				state = false;
+			}
+			else {
+				asr.startClip();
+				state = true;
+			}
 		}
-		else {
-			asr.startClip();
-			state = true;
+		else { // "FILE CHOSEN"
+			asr.closeClip();
 		}
-		vv.pausePlayView(state);
+	}
+
+	/**
+	 * @return	The model with all of the data for the visualizer
+	 */
+	public VisualizerModel getModel() {
+		return vm;
 	}
 }

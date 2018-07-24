@@ -33,19 +33,17 @@ public class SpectralPlot extends JPanel {
 	 * Gets frequency spectrum data for a specific point in time from the model and then translates
 	 * it into an image of the spectral plot
 	 */
-	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		int[] spectrum = vm.getFreqSpectrum();
+		double[] spectrum = vm.getFreqSpectrum();
 
-		int x = 0;
 		Random randy = new Random();
-		for (int a : spectrum) {
-			a *= 10;
+		int a;
+		for (int i = 1; i <= spectrum.length; i++) {
+			a = (int) (5 * spectrum[i - 1]);
 			g.setColor(new Color(randy.nextInt(255), randy.nextInt(255), randy.nextInt(255)));
-			g.fillRect(x, FRAME_HEIGHT - a, 1, a);
-			x++;
+			g.fillRect(i, FRAME_HEIGHT - a, 1, a);
 		}
 	}
 }

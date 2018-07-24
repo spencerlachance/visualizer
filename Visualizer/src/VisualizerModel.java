@@ -14,7 +14,7 @@ public class VisualizerModel {
 	private float sampleRate;
 	AudioSampleReader asr;
 	
-	private static int SAMPLE_WINDOW_LENGTH = 512;
+	private static int SAMPLE_WINDOW_LENGTH = 1024;
 	
 	/**
 	 * Constructor for the model
@@ -48,7 +48,7 @@ public class VisualizerModel {
 	 * 
 	 * @return	An abbreviated array of frequency spectrum data of length 1000
 	 */
-	public int[] getFreqSpectrum() {
+	public double[] getFreqSpectrum() {
 		FourierTransform fft = new FFT(SAMPLE_WINDOW_LENGTH, sampleRate);
 		float[] fftData = new float[SAMPLE_WINDOW_LENGTH];
 		
@@ -66,11 +66,11 @@ public class VisualizerModel {
 		
 		fft.forward(fftData);
 		
-		int[] spectrum = new int[1000];
+		double[] spectrum = new double[1000];
 		int nyquist = (int) sampleRate / 2;
 		float interval = nyquist / 1000;
 		for (int i = 0; i < 1000; i++) {
-			spectrum[i] = (int) fft.getFreq(i * interval);
+			spectrum[i] = fft.getFreq(i * interval);
 		}
 		return spectrum;
 	}

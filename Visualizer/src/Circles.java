@@ -39,14 +39,13 @@ public class Circles extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		int[] spectrum = vm.getFreqSpectrum();
+		double[] spectrum = vm.getFreqSpectrum();
 		Random randy = new Random();
 
 		int a;
 		for (int i = 0; i < spectrum.length; i += 4) {
 			g.setColor(new Color(randy.nextInt(255), randy.nextInt(255), randy.nextInt(255)));
-			a = spectrum[i];
-			a *= 6;
+			a = (int) (6 * spectrum[i]);
 			g.fillOval(FRAME_WIDTH / 2 - a / 2, FRAME_HEIGHT / 2 - a / 2, a, a);
 		}
 	}
