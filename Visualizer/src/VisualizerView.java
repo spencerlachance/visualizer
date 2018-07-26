@@ -11,7 +11,7 @@ import javax.swing.*;
  * @author Spencer LaChance
  *
  */
-public class VisualizerView extends JFrame implements ActionListener {
+public class VisualizerView extends JPanel implements ActionListener {
 
 	private Timer timer;
 	private JButton playButton;
@@ -36,10 +36,7 @@ public class VisualizerView extends JFrame implements ActionListener {
 		currentDesign = 1;
 		state = false;
 
-		this.setTitle("Spencer's Visualizer");
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		this.setLayout(new BorderLayout());	
 		visualizerPanel = new TitleCard();
 		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -65,9 +62,6 @@ public class VisualizerView extends JFrame implements ActionListener {
 		designChooser.setActionCommand("DESIGN CHANGE");
 		designChooser.addActionListener(this);
 		buttonPanel.add(designChooser);
-
-		this.pack();
-		this.setVisible(true);
 	}
 
 	/**
