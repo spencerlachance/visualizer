@@ -14,7 +14,7 @@ public class VisualizerModel {
 	private float sampleRate;
 	AudioSampleReader asr;
 	
-	private static int SAMPLE_WINDOW_LENGTH = 1024;
+	private static int SAMPLE_WINDOW_LENGTH = 2048;
 	
 	/**
 	 * Constructor for the model
