@@ -45,7 +45,7 @@ public class Circles extends JPanel {
 		int a;
 		for (int i = 0; i < spectrum.length; i += 4) {
 			g.setColor(new Color(randy.nextInt(255), randy.nextInt(255), randy.nextInt(255)));
-			a = (int) (6 * spectrum[i]);
+			a = (int) (3 * spectrum[i]);
 			g.fillOval(FRAME_WIDTH / 2 - a / 2, FRAME_HEIGHT / 2 - a / 2, a, a);
 		}
 	}

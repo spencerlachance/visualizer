@@ -41,7 +41,7 @@ public class SpectralPlot extends JPanel {
 		Random randy = new Random();
 		int a;
 		for (int i = 1; i <= spectrum.length; i++) {
-			a = (int) (5 * spectrum[i - 1]);
+			a = (int) (10 * spectrum[i - 1]);
 			g.setColor(new Color(randy.nextInt(255), randy.nextInt(255), randy.nextInt(255)));
 			g.fillRect(i, FRAME_HEIGHT - a, 1, a);
 		}
