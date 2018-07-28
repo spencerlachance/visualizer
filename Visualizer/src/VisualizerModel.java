@@ -67,8 +67,7 @@ public class VisualizerModel {
 		fft.forward(fftData);
 		
 		double[] spectrum = new double[1000];
-		int nyquist = (int) sampleRate / 2;
-		float interval = nyquist / 1000;
+		float interval = 20000 / 1000; // 20,000 being the highest frequency that we can hear
 		for (int i = 0; i < 1000; i++) {
 			spectrum[i] = fft.getFreq(i * interval);
 		}

@@ -57,11 +57,15 @@ public class VisualizerView extends JPanel implements ActionListener {
 		playButton.addActionListener(this);
 		buttonPanel.add(playButton);
 
-		String[] options = {"1. Circles", "2. Spectral Plot", "3. Central Spectrum"};
+		String[] options = {"1. Circles", "2. Spectral Plot", "3. Waveform"};
 		JComboBox<String> designChooser = new JComboBox<>(options);
 		designChooser.setActionCommand("DESIGN CHANGE");
 		designChooser.addActionListener(this);
 		buttonPanel.add(designChooser);
+		
+		timer = new Timer(10, this);
+		timer.setInitialDelay(0);
+		timer.setActionCommand("TICK");
 	}
 
 	/**
@@ -70,9 +74,6 @@ public class VisualizerView extends JPanel implements ActionListener {
 	 * @param vm	The model with the data needed to visually represent the audio
 	 */
 	public void start(VisualizerModel vm) {
-		timer = new Timer(10, this);
-		timer.setInitialDelay(0);
-		timer.setActionCommand("TICK");
 		this.vm = vm;
 		selectDesign(currentDesign);
 		timer.restart();
@@ -93,6 +94,9 @@ public class VisualizerView extends JPanel implements ActionListener {
 		case "FILE CHOSEN":
 			chooser.showOpenDialog(this);
 			f = chooser.getSelectedFile();
+			if (f == null) {
+				return;
+			}
 			VisualizerController vc = new VisualizerController(f);
 			playButton.addActionListener(vc);
 			fileButton.addActionListener(vc);
@@ -142,6 +146,10 @@ public class VisualizerView extends JPanel implements ActionListener {
 	 * @param choice	A number corresponding to an animation type
 	 */
 	public void selectDesign(int choice) {
+		if (vm == null) {
+			return;
+		}
+		
 		pausePlayView(false);
 		this.remove(visualizerPanel);
 		switch (choice) {
@@ -152,7 +160,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 			visualizerPanel = new SpectralPlot(vm, FRAME_WIDTH, FRAME_HEIGHT);
 			break;
 		case 3:
-			visualizerPanel = new CentralSpectrum(vm, FRAME_WIDTH, FRAME_HEIGHT);
+			visualizerPanel = new Waveform(vm, FRAME_WIDTH, FRAME_HEIGHT);
 		}
 		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		this.add(visualizerPanel);
