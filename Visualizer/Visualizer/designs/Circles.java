@@ -1,22 +1,25 @@
+package designs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
 import javax.swing.JPanel;
 
+import src.VisualizerModel;
+
 /**
- * Creates a more aesthetically pleasing animation of the song's frequency spectral plot centered in
- * the middle of the window
+ * Creates an visual representation of the song using circles of varying sizes and colors
  * 
  * @author Spencer LaChance
  *
  */
 @SuppressWarnings("serial")
-public class CentralSpectrum extends JPanel {
+public class Circles extends JPanel {
 	
 	private VisualizerModel vm;
 	
 	private static int FRAME_HEIGHT;
+	private static int FRAME_WIDTH;
 	
 	/**
 	 * Constructor for this animation
@@ -25,27 +28,28 @@ public class CentralSpectrum extends JPanel {
 	 * @param width		Width of the application window
 	 * @param height	Height of the application window
 	 */
-	public CentralSpectrum(VisualizerModel vm, int width, int height) {
+	public Circles(VisualizerModel vm, int height, int width) {
 		this.vm = vm;
 		FRAME_HEIGHT = height;
+		FRAME_WIDTH = width;
 	}
 
 	/**
 	 * Gets frequency spectrum data for a specific point in time from the model and then translates
-	 * it into an mirrored image of the spectral plot centered in the window
+	 * it into an image of circles that represent various frequencies
 	 */
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
 		double[] spectrum = vm.getFreqSpectrum();
-
 		Random randy = new Random();
+
 		int a;
-		for (int i = 1; i <= spectrum.length; i++) {
-			a = (int) (5 * spectrum[i - 1]);
+		for (int i = 0; i < spectrum.length; i += 4) {
 			g.setColor(new Color(randy.nextInt(255), randy.nextInt(255), randy.nextInt(255)));
-			g.fillRect(i, FRAME_HEIGHT / 2 - a, 1, a);
-			g.fillRect(i, FRAME_HEIGHT / 2, 1, a);
+			a = (int) (3 * spectrum[i]);
+			g.fillOval(FRAME_WIDTH / 2 - a / 2, FRAME_HEIGHT / 2 - a / 2, a, a);
 		}
 	}
 }

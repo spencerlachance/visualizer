@@ -1,9 +1,14 @@
+package src;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.*;
+
+import designs.Circles;
+import designs.SpectralPlot;
+import designs.Waveform;
 
 /**
  * Displays the visualizer animation

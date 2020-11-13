@@ -1,8 +1,11 @@
+package designs;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
 import javax.swing.JPanel;
+
+import src.VisualizerModel;
 
 /**
  * Creates a more aesthetically pleasing animation of the song's frequency spectral plot centered in
@@ -12,7 +15,7 @@ import javax.swing.JPanel;
  *
  */
 @SuppressWarnings("serial")
-public class Waveform extends JPanel {
+public class CentralSpectrum extends JPanel {
 	
 	private VisualizerModel vm;
 	
@@ -25,7 +28,7 @@ public class Waveform extends JPanel {
 	 * @param width		Width of the application window
 	 * @param height	Height of the application window
 	 */
-	public Waveform(VisualizerModel vm, int width, int height) {
+	public CentralSpectrum(VisualizerModel vm, int width, int height) {
 		this.vm = vm;
 		FRAME_HEIGHT = height;
 	}
