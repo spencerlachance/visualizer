@@ -18,7 +18,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 	private JPanel visualizerPanel;
 	private JFileChooser chooser;
 	private JButton fileButton;
-	private int currentDesign; //corresponds to the numbers in the drop-down
+	private int currentDesign; // corresponds to the numbers in the drop-down
 	private VisualizerModel vm;
 	private boolean state;
 	private File f;
@@ -29,7 +29,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 	/**
 	 * Constructor for the view
 	 * 
-	 * @param vm	The model that contains all of the data behind the visualizer
+	 * @param vm The model that contains all of the data behind the visualizer
 	 */
 	public VisualizerView() {
 		super();
@@ -37,7 +37,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 		state = false;
 
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		this.setLayout(new BorderLayout());	
+		this.setLayout(new BorderLayout());
 		visualizerPanel = new TitleCard();
 		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		this.add(visualizerPanel);
@@ -57,12 +57,12 @@ public class VisualizerView extends JPanel implements ActionListener {
 		playButton.addActionListener(this);
 		buttonPanel.add(playButton);
 
-		String[] options = {"1. Circles", "2. Spectral Plot", "3. Waveform"};
+		String[] options = { "1. Circles", "2. Spectral Plot", "3. Waveform" };
 		JComboBox<String> designChooser = new JComboBox<>(options);
 		designChooser.setActionCommand("DESIGN CHANGE");
 		designChooser.addActionListener(this);
 		buttonPanel.add(designChooser);
-		
+
 		timer = new Timer(10, this);
 		timer.setInitialDelay(0);
 		timer.setActionCommand("TICK");
@@ -71,7 +71,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 	/**
 	 * Starts the animation
 	 * 
-	 * @param vm	The model with the data needed to visually represent the audio
+	 * @param vm The model with the data needed to visually represent the audio
 	 */
 	public void start(VisualizerModel vm) {
 		this.vm = vm;
@@ -82,8 +82,8 @@ public class VisualizerView extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * What happens every timer tick, the Choose File button is pressed, or a design is selected
-	 * from the drop-down
+	 * What happens every timer tick, the Choose File button is pressed, or a design
+	 * is selected from the drop-down
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -113,8 +113,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 					timer.stop();
 					playButton.setText("►");
 					state = false;
-				}
-				else {
+				} else {
 					timer.start();
 					playButton.setText("❚❚");
 					state = true;
@@ -126,30 +125,30 @@ public class VisualizerView extends JPanel implements ActionListener {
 	/**
 	 * How the view reacts to the play button being toggled
 	 * 
-	 * @param state		The current state of the animation after the button is pressed 
-	 * 					(true = playing, false = paused)
+	 * @param state The current state of the animation after the button is pressed
+	 *              (true = playing, false = paused)
 	 */
 	public void pausePlayView(boolean state) {
 		if (state) {
 			timer.start();
 			playButton.setText("❚❚");
-		}
-		else {
+		} else {
 			timer.stop();
 			playButton.setText("►");
 		}
 	}
 
 	/**
-	 * Changes the type of animation displayed based on what the user selects from the drop-down
+	 * Changes the type of animation displayed based on what the user selects from
+	 * the drop-down
 	 * 
-	 * @param choice	A number corresponding to an animation type
+	 * @param choice A number corresponding to an animation type
 	 */
 	public void selectDesign(int choice) {
 		if (vm == null) {
 			return;
 		}
-		
+
 		pausePlayView(false);
 		this.remove(visualizerPanel);
 		switch (choice) {
@@ -166,14 +165,14 @@ public class VisualizerView extends JPanel implements ActionListener {
 		this.add(visualizerPanel);
 		pausePlayView(true);
 	}
-	
+
 	private class TitleCard extends JPanel {
-		
+
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			
-			g.drawString("Click the button below and choose a WAV, AU, or AIFF/AIFF-C file.",
-					FRAME_WIDTH / 2 - 200, FRAME_HEIGHT / 2);
+
+			g.drawString("Click the button below and choose a WAV, AU, or AIFF/AIFF-C file.", FRAME_WIDTH / 2 - 200,
+					FRAME_HEIGHT / 2);
 		}
 	}
 }

@@ -6,7 +6,8 @@ import java.io.IOException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * The controller for the visualizer that communicates between the user, view, and model
+ * The controller for the visualizer that communicates between the user, view,
+ * and model
  * 
  * @author Spencer LaChance
  *
@@ -20,7 +21,7 @@ public class VisualizerController implements ActionListener {
 	/**
 	 * Constructor for the controller
 	 * 
-	 * @param filePath		the path to the file used in the visualizer
+	 * @param filePath the path to the file used in the visualizer
 	 */
 	public VisualizerController(File f) {
 		try {
@@ -53,19 +54,17 @@ public class VisualizerController implements ActionListener {
 			if (state) {
 				asr.stopClip();
 				state = false;
-			}
-			else {
+			} else {
 				asr.startClip();
 				state = true;
 			}
-		}
-		else { // "FILE CHOSEN"
+		} else { // "FILE CHOSEN"
 			asr.closeClip();
 		}
 	}
 
 	/**
-	 * @return	The model with all of the data for the visualizer
+	 * @return The model with all of the data for the visualizer
 	 */
 	public VisualizerModel getModel() {
 		return vm;

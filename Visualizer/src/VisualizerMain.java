@@ -1,7 +1,8 @@
 import javax.swing.JFrame;
 
 /**
- * The class that gets the input file path from the user and then runs the visualizer with it
+ * The class that gets the input file path from the user and then runs the
+ * visualizer with it
  * 
  * @author Spencer LaChance
  *
@@ -13,7 +14,7 @@ public class VisualizerMain extends JFrame {
 		VisualizerMain app = new VisualizerMain();
 		app.init();
 	}
-	
+
 	private void init() {
 		setTitle("Spencer's Visualizer");
 		VisualizerView vv = new VisualizerView();
