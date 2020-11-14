@@ -10,6 +10,12 @@ import designs.Circles;
 import designs.SpectralPlot;
 import designs.Waveform;
 
+enum Design {
+	CIRCLES,
+	PLOT,
+	WAVEFORM
+}
+
 /**
  * Displays the visualizer animation
  * 
@@ -33,12 +39,10 @@ public class VisualizerView extends JPanel implements ActionListener {
 
 	/**
 	 * Constructor for the view
-	 * 
-	 * @param vm The model that contains all of the data behind the visualizer
 	 */
 	public VisualizerView() {
 		super();
-		currentDesign = 1;
+		currentDesign = 0;
 		state = false;
 
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -62,7 +66,11 @@ public class VisualizerView extends JPanel implements ActionListener {
 		playButton.addActionListener(this);
 		buttonPanel.add(playButton);
 
-		String[] options = { "1. Circles", "2. Spectral Plot", "3. Waveform" };
+		String[] options = {
+			String.format("%d. Circles", Design.CIRCLES.ordinal() + 1), 
+			String.format("%d. Spectral Plot", Design.PLOT.ordinal() + 1),
+			String.format("%d. Waveform", Design.WAVEFORM.ordinal() + 1), 
+		};
 		JComboBox<String> designChooser = new JComboBox<>(options);
 		designChooser.setActionCommand("DESIGN CHANGE");
 		designChooser.addActionListener(this);
@@ -108,8 +116,9 @@ public class VisualizerView extends JPanel implements ActionListener {
 			start(vc.getModel());
 			break;
 		case "DESIGN CHANGE":
+			// Parse the design index from the ComboBox selection
 			char choice = ((String) ((JComboBox) e.getSource()).getSelectedItem()).charAt(0);
-			currentDesign = Character.getNumericValue(choice);
+			currentDesign = Character.getNumericValue(choice) - 1;
 			selectDesign(currentDesign);
 			break;
 		case "PLAY/PAUSE":
@@ -156,15 +165,16 @@ public class VisualizerView extends JPanel implements ActionListener {
 
 		pausePlayView(false);
 		this.remove(visualizerPanel);
-		switch (choice) {
-		case 1:
-			visualizerPanel = new Circles(vm, FRAME_WIDTH, FRAME_HEIGHT);
-			break;
-		case 2:
-			visualizerPanel = new SpectralPlot(vm, FRAME_WIDTH, FRAME_HEIGHT);
-			break;
-		case 3:
-			visualizerPanel = new Waveform(vm, FRAME_WIDTH, FRAME_HEIGHT);
+		Design enumChoice = Design.values()[choice];
+		switch (enumChoice) {
+			case CIRCLES:
+				visualizerPanel = new Circles(vm, FRAME_WIDTH, FRAME_HEIGHT);
+				break;
+			case PLOT:
+				visualizerPanel = new SpectralPlot(vm, FRAME_WIDTH, FRAME_HEIGHT);
+				break;
+			case WAVEFORM:
+				visualizerPanel = new Waveform(vm, FRAME_WIDTH, FRAME_HEIGHT);
 		}
 		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		this.add(visualizerPanel);
