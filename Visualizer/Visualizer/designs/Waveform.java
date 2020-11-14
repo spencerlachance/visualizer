@@ -15,22 +15,10 @@ import src.VisualizerModel;
  *
  */
 @SuppressWarnings("serial")
-public class Waveform extends JPanel {
+public class Waveform extends VisualizerDesign {
 	
-	private VisualizerModel vm;
-	
-	private static int FRAME_HEIGHT;
-	
-	/**
-	 * Constructor for this animation
-	 * 
-	 * @param vm		The model with all of the needed data
-	 * @param width		Width of the application window
-	 * @param height	Height of the application window
-	 */
 	public Waveform(VisualizerModel vm, int width, int height) {
-		this.vm = vm;
-		FRAME_HEIGHT = height;
+		super(vm, width, height);
 	}
 
 	/**

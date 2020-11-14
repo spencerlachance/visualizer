@@ -15,22 +15,10 @@ import src.VisualizerModel;
  *
  */
 @SuppressWarnings("serial")
-public class CentralSpectrum extends JPanel {
-	
-	private VisualizerModel vm;
-	
-	private static int FRAME_HEIGHT;
-	
-	/**
-	 * Constructor for this animation
-	 * 
-	 * @param vm		The model with all of the needed data
-	 * @param width		Width of the application window
-	 * @param height	Height of the application window
-	 */
+public class CentralSpectrum extends VisualizerDesign {
+
 	public CentralSpectrum(VisualizerModel vm, int width, int height) {
-		this.vm = vm;
-		FRAME_HEIGHT = height;
+		super(vm, width, height);
 	}
 
 	/**

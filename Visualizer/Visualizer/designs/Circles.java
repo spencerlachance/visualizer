@@ -14,24 +14,10 @@ import src.VisualizerModel;
  *
  */
 @SuppressWarnings("serial")
-public class Circles extends JPanel {
+public class Circles extends VisualizerDesign {
 	
-	private VisualizerModel vm;
-	
-	private static int FRAME_HEIGHT;
-	private static int FRAME_WIDTH;
-	
-	/**
-	 * Constructor for this animation
-	 * 
-	 * @param vm		The model with all of the needed data
-	 * @param width		Width of the application window
-	 * @param height	Height of the application window
-	 */
-	public Circles(VisualizerModel vm, int height, int width) {
-		this.vm = vm;
-		FRAME_HEIGHT = height;
-		FRAME_WIDTH = width;
+	public Circles(VisualizerModel vm, int width, int height) {
+		super(vm, width, height);
 	}
 
 	/**
