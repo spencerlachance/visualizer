@@ -22,16 +22,14 @@ enum Design {
  * @author Spencer LaChance
  *
  */
-public class VisualizerView extends JPanel implements ActionListener {
+public class VisualizerView extends JPanel {
 
-	private Timer timer;
 	private JButton playButton;
 	private JPanel visualizerPanel;
 	private JFileChooser chooser;
 	private JButton fileButton;
 	private int currentDesign; // corresponds to the numbers in the drop-down
 	private VisualizerModel vm;
-	private boolean state;
 	private File f;
 
 	private static int FRAME_WIDTH = 1000;
@@ -39,11 +37,12 @@ public class VisualizerView extends JPanel implements ActionListener {
 
 	/**
 	 * Constructor for the view
+	 * 
+	 * @param vc the VisualizerController that will listen for the events from the UI
 	 */
-	public VisualizerView() {
+	public VisualizerView(VisualizerController vc) {
 		super();
 		currentDesign = 0;
-		state = false;
 
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		this.setLayout(new BorderLayout());
@@ -58,12 +57,12 @@ public class VisualizerView extends JPanel implements ActionListener {
 		chooser = new JFileChooser();
 		fileButton = new JButton("Choose File");
 		fileButton.setActionCommand("FILE CHOSEN");
-		fileButton.addActionListener(this);
+		fileButton.addActionListener(vc);
 		buttonPanel.add(fileButton);
 
 		playButton = new JButton("►");
 		playButton.setActionCommand("PLAY/PAUSE");
-		playButton.addActionListener(this);
+		playButton.addActionListener(vc);
 		buttonPanel.add(playButton);
 
 		String[] options = {
@@ -73,12 +72,8 @@ public class VisualizerView extends JPanel implements ActionListener {
 		};
 		JComboBox<String> designChooser = new JComboBox<>(options);
 		designChooser.setActionCommand("DESIGN CHANGE");
-		designChooser.addActionListener(this);
+		designChooser.addActionListener(vc);
 		buttonPanel.add(designChooser);
-
-		timer = new Timer(10, this);
-		timer.setInitialDelay(0);
-		timer.setActionCommand("TICK");
 	}
 
 	/**
@@ -89,51 +84,18 @@ public class VisualizerView extends JPanel implements ActionListener {
 	public void start(VisualizerModel vm) {
 		this.vm = vm;
 		selectDesign(currentDesign);
-		timer.restart();
 		playButton.setText("❚❚");
-		state = true;
 	}
-
+	
 	/**
-	 * What happens every timer tick, the Choose File button is pressed, or a design
-	 * is selected from the drop-down
+	 * Open the FileChooser and retrieve the file that the user selects
+	 * 
+	 * @return the file
 	 */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		switch (e.getActionCommand()) {
-		case "TICK":
-			this.repaint();
-			break;
-		case "FILE CHOSEN":
-			chooser.showOpenDialog(this);
-			f = chooser.getSelectedFile();
-			if (f == null) {
-				return;
-			}
-			VisualizerController vc = new VisualizerController(f);
-			playButton.addActionListener(vc);
-			fileButton.addActionListener(vc);
-			start(vc.getModel());
-			break;
-		case "DESIGN CHANGE":
-			// Parse the design index from the ComboBox selection
-			char choice = ((String) ((JComboBox) e.getSource()).getSelectedItem()).charAt(0);
-			currentDesign = Character.getNumericValue(choice) - 1;
-			selectDesign(currentDesign);
-			break;
-		case "PLAY/PAUSE":
-			if (!(f == null)) {
-				if (state) {
-					timer.stop();
-					playButton.setText("►");
-					state = false;
-				} else {
-					timer.start();
-					playButton.setText("❚❚");
-					state = true;
-				}
-			}
-		}
+	public File loadFile() {
+		chooser.showOpenDialog(this);
+		f = chooser.getSelectedFile();
+		return f;
 	}
 
 	/**
@@ -142,13 +104,13 @@ public class VisualizerView extends JPanel implements ActionListener {
 	 * @param state The current state of the animation after the button is pressed
 	 *              (true = playing, false = paused)
 	 */
-	public void pausePlayView(boolean state) {
-		if (state) {
-			timer.start();
-			playButton.setText("❚❚");
-		} else {
-			timer.stop();
-			playButton.setText("►");
+	public void togglePlayPause(boolean state) {
+		if (!(f == null)) {
+			if (state) {
+				playButton.setText("❚❚");
+			} else {
+				playButton.setText("►");
+			}
 		}
 	}
 
@@ -163,7 +125,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 			return;
 		}
 
-		pausePlayView(false);
+		togglePlayPause(false);
 		this.remove(visualizerPanel);
 		Design enumChoice = Design.values()[choice];
 		switch (enumChoice) {
@@ -178,7 +140,7 @@ public class VisualizerView extends JPanel implements ActionListener {
 		}
 		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		this.add(visualizerPanel);
-		pausePlayView(true);
+		togglePlayPause(true);
 	}
 
 	private class TitleCard extends JPanel {
