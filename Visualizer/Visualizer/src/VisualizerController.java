@@ -22,6 +22,7 @@ public class VisualizerController implements ActionListener {
 	private VisualizerModel vm;
 	private VisualizerView vv;
 	private boolean state; // true = playing, false = paused
+	private File f;
 
 	/**
 	 * Constructor for the controller
@@ -30,22 +31,25 @@ public class VisualizerController implements ActionListener {
 	 */
 	public VisualizerController(File f) {
 		vv = new VisualizerView(this);
-		init(f);
+		f = null;
+		init();
 	}
 	
 	/**
 	 * Initialize the VisualizerController's fields and start the animation
-	 * 
-	 * @param f the audio file that the user selected
 	 */
-	public void init(File f) {
+	public void init() {
 		if (f != null) {
 			try {
 				asr = new AudioSampleReader(f);
 			} catch (UnsupportedAudioFileException e) {
-				e.printStackTrace();
+				f = null;
+				vv.showErrorMessage();
+				return;
 			} catch (IOException e) {
-				e.printStackTrace();
+				f = null;
+				vv.showErrorMessage();
+				return;
 			}
 			
 			vm = new VisualizerModel(asr);
@@ -80,8 +84,8 @@ public class VisualizerController implements ActionListener {
 				vv.repaint();
 				break;
 			case "FILE CHOSEN":
-				File f = vv.loadFile();
-				init(f);
+				f = vv.loadFile();
+				init();
 				if (f != null) {
 					vv.start(vm);
 				}
@@ -92,14 +96,16 @@ public class VisualizerController implements ActionListener {
 				vv.selectDesign(Character.getNumericValue(choice) - 1);
 				break;
 			case "PLAY/PAUSE":
-				if (state) {
-					timer.stop();
-					state = false;
-				} else {
-					timer.start();
-					state = true;
+				if (f != null) {
+					if (state) {
+						timer.stop();
+						state = false;
+					} else {
+						timer.start();
+						state = true;
+					}
+					vv.togglePlayPause(state);
 				}
-				vv.togglePlayPause(state);
 			}
 	}
 

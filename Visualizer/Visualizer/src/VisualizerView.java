@@ -11,9 +11,9 @@ import designs.SpectralPlot;
 import designs.Waveform;
 
 enum Design {
-	CIRCLES,
+	WAVEFORM,
 	PLOT,
-	WAVEFORM
+	CIRCLES,
 }
 
 /**
@@ -30,7 +30,6 @@ public class VisualizerView extends JPanel {
 	private JButton fileButton;
 	private int currentDesign; // corresponds to the numbers in the drop-down
 	private VisualizerModel vm;
-	private File f;
 
 	private static int FRAME_WIDTH = 1000;
 	private static int FRAME_HEIGHT = 950;
@@ -66,9 +65,9 @@ public class VisualizerView extends JPanel {
 		buttonPanel.add(playButton);
 
 		String[] options = {
-			String.format("%d. Circles", Design.CIRCLES.ordinal() + 1), 
-			String.format("%d. Spectral Plot", Design.PLOT.ordinal() + 1),
 			String.format("%d. Waveform", Design.WAVEFORM.ordinal() + 1), 
+			String.format("%d. Spectral Plot", Design.PLOT.ordinal() + 1),
+			String.format("%d. Circles", Design.CIRCLES.ordinal() + 1), 
 		};
 		JComboBox<String> designChooser = new JComboBox<>(options);
 		designChooser.setActionCommand("DESIGN CHANGE");
@@ -94,8 +93,7 @@ public class VisualizerView extends JPanel {
 	 */
 	public File loadFile() {
 		chooser.showOpenDialog(this);
-		f = chooser.getSelectedFile();
-		return f;
+		return chooser.getSelectedFile();
 	}
 
 	/**
@@ -105,12 +103,10 @@ public class VisualizerView extends JPanel {
 	 *              (true = playing, false = paused)
 	 */
 	public void togglePlayPause(boolean state) {
-		if (!(f == null)) {
-			if (state) {
-				playButton.setText("❚❚");
-			} else {
-				playButton.setText("►");
-			}
+		if (state) {
+			playButton.setText("❚❚");
+		} else {
+			playButton.setText("►");
 		}
 	}
 
@@ -142,14 +138,49 @@ public class VisualizerView extends JPanel {
 		this.add(visualizerPanel);
 		togglePlayPause(true);
 	}
+	
+	/**
+	 * Display an error message
+	 */
+	public void showErrorMessage() {
+		this.vm = null;
+		playButton.setText("►");
+		
+		this.remove(visualizerPanel);
+		visualizerPanel = new ErrorCard();
+		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		this.add(visualizerPanel);
+	}
 
+	/**
+	 * The text that shows before the user selects a file
+	 * 
+	 * @author Spencer LaChance
+	 *
+	 */
 	private class TitleCard extends JPanel {
 
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
-			g.drawString("Click the button below and choose a WAV, AU, or AIFF/AIFF-C file.", FRAME_WIDTH / 2 - 200,
-					FRAME_HEIGHT / 2);
+			g.drawString("Click the button below and choose a WAV, AU, or AIFF/AIFF-C file.", 
+				FRAME_WIDTH / 2 - 200, FRAME_HEIGHT / 2);
+		}
+	}
+	
+	/**
+	 * The text that shows when there is an error reading the audio file
+	 * 
+	 * @author Spencer LaChance
+	 *
+	 */
+	private class ErrorCard extends JPanel {
+		
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			
+			g.drawString("An error occurred, please try another file. Make sure it's either in the"
+					+ " WAV, AU, or AIFF/AIFF-c format.", FRAME_WIDTH / 2 - 250, FRAME_HEIGHT / 2);
 		}
 	}
 }
