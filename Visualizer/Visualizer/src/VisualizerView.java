@@ -33,6 +33,11 @@ public class VisualizerView extends JPanel {
 
 	private static int FRAME_WIDTH = 1000;
 	private static int FRAME_HEIGHT = 950;
+	private static String[] DESIGN_OPTIONS = {
+		String.format("%d. Waveform", Design.WAVEFORM.ordinal() + 1), 
+		String.format("%d. Spectral Plot", Design.PLOT.ordinal() + 1),
+		String.format("%d. Circles", Design.CIRCLES.ordinal() + 1), 
+	};
 
 	/**
 	 * Constructor for the view
@@ -64,12 +69,7 @@ public class VisualizerView extends JPanel {
 		playButton.addActionListener(vc);
 		buttonPanel.add(playButton);
 
-		String[] options = {
-			String.format("%d. Waveform", Design.WAVEFORM.ordinal() + 1), 
-			String.format("%d. Spectral Plot", Design.PLOT.ordinal() + 1),
-			String.format("%d. Circles", Design.CIRCLES.ordinal() + 1), 
-		};
-		JComboBox<String> designChooser = new JComboBox<>(options);
+		JComboBox<String> designChooser = new JComboBox<>(DESIGN_OPTIONS);
 		designChooser.setActionCommand("DESIGN CHANGE");
 		designChooser.addActionListener(vc);
 		buttonPanel.add(designChooser);
