@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="src" path="Visualizer"/>
-	<classpathentry kind="lib" path="C:/Users/Spencer LaChance/eclipse-workspace/minim-2.2.2/minim/library/minim.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
