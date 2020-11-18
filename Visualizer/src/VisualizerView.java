@@ -1,4 +1,5 @@
 package src;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,9 +12,7 @@ import designs.SpectralPlot;
 import designs.Waveform;
 
 enum Design {
-	WAVEFORM,
-	PLOT,
-	CIRCLES,
+	WAVEFORM, PLOT, CIRCLES,
 }
 
 /**
@@ -33,16 +32,16 @@ public class VisualizerView extends JPanel {
 
 	private static int FRAME_WIDTH = 1000;
 	private static int FRAME_HEIGHT = 950;
-	private static String[] DESIGN_OPTIONS = {
-		String.format("%d. Waveform", Design.WAVEFORM.ordinal() + 1), 
-		String.format("%d. Spectral Plot", Design.PLOT.ordinal() + 1),
-		String.format("%d. Circles", Design.CIRCLES.ordinal() + 1), 
-	};
+	private static String[] DESIGN_OPTIONS = { 
+			String.format("%d. Waveform", Design.WAVEFORM.ordinal() + 1),
+			String.format("%d. Spectral Plot", Design.PLOT.ordinal() + 1),
+			String.format("%d. Circles", Design.CIRCLES.ordinal() + 1) };
 
 	/**
 	 * Constructor for the view
 	 * 
-	 * @param vc the VisualizerController that will listen for the events from the UI
+	 * @param vc the VisualizerController that will listen for the events from the
+	 *           UI
 	 */
 	public VisualizerView(VisualizerController vc) {
 		super();
@@ -85,7 +84,7 @@ public class VisualizerView extends JPanel {
 		selectDesign(currentDesign);
 		playButton.setText("❚❚");
 	}
-	
+
 	/**
 	 * Open the FileChooser and retrieve the file that the user selects
 	 * 
@@ -125,27 +124,27 @@ public class VisualizerView extends JPanel {
 		this.remove(visualizerPanel);
 		Design enumChoice = Design.values()[choice];
 		switch (enumChoice) {
-			case CIRCLES:
-				visualizerPanel = new Circles(vm, FRAME_WIDTH, FRAME_HEIGHT);
-				break;
-			case PLOT:
-				visualizerPanel = new SpectralPlot(vm, FRAME_WIDTH, FRAME_HEIGHT);
-				break;
-			case WAVEFORM:
-				visualizerPanel = new Waveform(vm, FRAME_WIDTH, FRAME_HEIGHT);
+		case CIRCLES:
+			visualizerPanel = new Circles(vm, FRAME_WIDTH, FRAME_HEIGHT);
+			break;
+		case PLOT:
+			visualizerPanel = new SpectralPlot(vm, FRAME_WIDTH, FRAME_HEIGHT);
+			break;
+		case WAVEFORM:
+			visualizerPanel = new Waveform(vm, FRAME_WIDTH, FRAME_HEIGHT);
 		}
 		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		this.add(visualizerPanel);
 		togglePlayPause(true);
 	}
-	
+
 	/**
 	 * Display an error message
 	 */
 	public void showErrorMessage() {
 		this.vm = null;
 		playButton.setText("►");
-		
+
 		this.remove(visualizerPanel);
 		visualizerPanel = new ErrorCard();
 		visualizerPanel.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
@@ -164,10 +163,10 @@ public class VisualizerView extends JPanel {
 			super.paintComponent(g);
 
 			g.drawString("Click the button below and choose a WAV, AU, or AIFF/AIFF-C file.", 
-				FRAME_WIDTH / 2 - 200, FRAME_HEIGHT / 2);
+					FRAME_WIDTH / 2 - 200, FRAME_HEIGHT / 2);
 		}
 	}
-	
+
 	/**
 	 * The text that shows when there is an error reading the audio file
 	 * 
@@ -175,10 +174,10 @@ public class VisualizerView extends JPanel {
 	 *
 	 */
 	private class ErrorCard extends JPanel {
-		
+
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			
+
 			g.drawString("An error occurred, please try another file. Make sure it's either in the"
 					+ " WAV, AU, or AIFF/AIFF-c format.", FRAME_WIDTH / 2 - 250, FRAME_HEIGHT / 2);
 		}

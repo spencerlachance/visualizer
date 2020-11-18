@@ -1,4 +1,5 @@
 package src;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -34,7 +35,7 @@ public class VisualizerController implements ActionListener {
 		f = null;
 		init();
 	}
-	
+
 	/**
 	 * Initialize the VisualizerController's fields and start the animation
 	 */
@@ -51,7 +52,7 @@ public class VisualizerController implements ActionListener {
 				vv.showErrorMessage();
 				return;
 			}
-			
+
 			vm = new VisualizerModel(asr);
 			state = false;
 			asr.createClip();
@@ -59,7 +60,7 @@ public class VisualizerController implements ActionListener {
 			timer = new Timer(10, this);
 			timer.setInitialDelay(0);
 			timer.setActionCommand("TICK");
-			
+
 			start();
 		}
 	}
@@ -80,33 +81,33 @@ public class VisualizerController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-			case "TICK":
-				vv.repaint();
-				break;
-			case "FILE CHOSEN":
-				f = vv.loadFile();
-				init();
-				if (f != null) {
-					vv.start(vm);
-				}
-				break;
-			case "DESIGN CHANGE":
-				// Parse the design index from the ComboBox selection
-				char choice = ((String) ((JComboBox) e.getSource()).getSelectedItem()).charAt(0);
-				vv.selectDesign(Character.getNumericValue(choice) - 1);
-				break;
-			case "PLAY/PAUSE":
-				if (f != null) {
-					if (state) {
-						timer.stop();
-						state = false;
-					} else {
-						timer.start();
-						state = true;
-					}
-					vv.togglePlayPause(state);
-				}
+		case "TICK":
+			vv.repaint();
+			break;
+		case "FILE CHOSEN":
+			f = vv.loadFile();
+			init();
+			if (f != null) {
+				vv.start(vm);
 			}
+			break;
+		case "DESIGN CHANGE":
+			// Parse the design index from the ComboBox selection
+			char choice = ((String) ((JComboBox) e.getSource()).getSelectedItem()).charAt(0);
+			vv.selectDesign(Character.getNumericValue(choice) - 1);
+			break;
+		case "PLAY/PAUSE":
+			if (f != null) {
+				if (state) {
+					timer.stop();
+					state = false;
+				} else {
+					timer.start();
+					state = true;
+				}
+				vv.togglePlayPause(state);
+			}
+		}
 	}
 
 	/**
@@ -117,7 +118,7 @@ public class VisualizerController implements ActionListener {
 	public VisualizerModel getModel() {
 		return vm;
 	}
-	
+
 	/**
 	 * Getter for the View object
 	 * 
